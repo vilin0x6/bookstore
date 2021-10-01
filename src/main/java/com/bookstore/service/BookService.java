@@ -19,11 +19,11 @@ public class BookService {
 
     @Transactional
     public void registerBook(String title, String author, Long price) {
-        if(!bookRepository.findByTitle(title).isPresent()) {
+        if(bookRepository.findByTitle(title).isPresent()) {
+            throw new RuntimeException("해당 책이 이미 존재합니다.");
+        } else {
             Book book = new Book(title, author, price);
             bookRepository.save(book);
-        } else {
-            throw new RuntimeException("해당 책이 이미 존재합니다.");
         }
     }
 }
